@@ -47,32 +47,28 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        // Valider les données envoyées
         $validatedData = $request->validate([
             'email' => 'required|email',
             'password' => 'required|min:6',
         ]);
 
-        // Trouver l'utilisateur
         $user = User::where('email', $validatedData['email'])->first();
 
         if (!$user || !\Hash::check($validatedData['password'], $user->password)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // Création du token avec une expiration
         try {
-            // Création du token JWT avec les paramètres de configuration par défaut
+
             $token = JWTAuth::fromUser($user);
 
-            // Récupérer la valeur d'expiration depuis la configuration
-            // Notez que vous avez deux configurations : 'ttl' (60 minutes par défaut) et 'expire' (1440 minutes)
-            $expirationInMinutes = config('jwt.ttl', 1440); // Utilise 'expire' ou la valeur par défaut 1440 (24h)
+
+            $expirationInMinutes = config('jwt.ttl', 1440);
             $expirationInSeconds = $expirationInMinutes * 60;
 
             return response()->json([
                 'token' => $token,
-                'expires_in' => $expirationInSeconds // Durée d'expiration en secondes
+                'expires_in' => $expirationInSeconds 
             ]);
         } catch (JWTException $e) {
             Log::error("Erreur lors de la création du jeton JWT : " . $e->getMessage());
