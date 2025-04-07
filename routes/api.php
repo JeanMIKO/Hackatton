@@ -5,8 +5,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ExamenController;
 use App\Http\Controllers\Api\ResulatExamenController;
 use App\Models\ResultatExamen;
+use App\Http\Controllers\AuthController;
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
 
 /* Route::middleware('auth:api')->group(function () {
+    Route::get('/me', [AuthController::class, 'me']);
+    Route::post('/update', [AuthController::class, 'update']);
+    Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/examens', [ExamenController::class, 'index']);
     Route::get('/examens/{id}', [ExamenController::class, 'show']);
     Route::post('/examens', [ExamenController::class, 'store']);
