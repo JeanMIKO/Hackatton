@@ -35,12 +35,12 @@ class ResulatExamenController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'examen_id' => 'required|numeric',
-            'laborantin_id' =>'required|numeric',
-            'nom_examen' => 'required|text|max:255',
-            'resultats' => 'required|text|max:300',
-            'remarque' => 'required|numeric',
-            'date_realisation' => 'required|text|max:300',
+            'examen_id' => 'required|exists:examens,id',
+            'nom_examen' => 'required|string',
+            'resultats' => 'required|string',
+            'date_realisation' => 'required|date',
+            'remarque' => 'nullable|string',
+            'laborantin_id' => 'required|exists:users,id',
         ]);
 
         if ($validator->fails()){
@@ -49,7 +49,7 @@ class ResulatExamenController extends Controller
 
         $creation=ResultatExamen::create($request->all());
         return self::doapi(true, "Votre resultat d'examen a été créé avec succès",$creation, 200);
-        //return response()->json(['message' => 'Test OK'], 200);
+        
     }
 
     /**
