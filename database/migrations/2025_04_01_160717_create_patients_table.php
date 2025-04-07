@@ -19,7 +19,7 @@ return new class extends Migration
             $table->date('date_naissance');
             $table->enum('sexe', ['Homme', 'Femme']);
             $table->string('profession');
-            $table->string('nom__urgence')->nullable();
+            $table->string('nom_urgence')->nullable();
             $table->string('telephone_urgence')->nullable();
             $table->string('groupe_sanguin')->nullable();
             $table->text('adresse');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('email')->nullable();
             $table->text('antecedents')->nullable();
             $table->text('allergies')->nullable();
-            $table->foreignId('medecin_id')->nullable()->constrained('medecins')->onDelete('set null');
+            $table->foreignId('medecin_id')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('statut', ['Actif', 'Inactif', 'Décédé'])->default('Actif');
             $table->timestamps();
         });

@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('examens', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->constrained()->onDelete('cascade');
-            $table->foreignId('medecin_id')->constrained('medecins')->onDelete('cascade');
+            $table->foreignId('patient_id')->constrained('patients')->onDelete('cascade');
+            $table->foreignId('medecin_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('laborantin_id')->nullable()->constrained('users')->onDelete('set null');
             $table->enum('type_exam', ['nfs', 'uremie', 'creatinine', 'ionogramme', 'cholesterol', 'triglycerides', 'glycemie', 'hemoglobine_glyquee', 'autres']);
-            $table->string('code_examen')->unique();
             $table->date('date_prescription');
             $table->date('date_realisation')->nullable();
             $table->text('resultat')->nullable();
